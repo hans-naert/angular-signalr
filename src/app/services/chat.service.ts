@@ -10,15 +10,19 @@ export class ChatService {
   connection: signalR.HubConnection= new signalR.HubConnectionBuilder().withUrl("http://localhost:5299/chatHub").build();
 
   constructor(private httpClient: HttpClient) {
-    this.connection.start().
-    then(() => {
+    this.connect();
+  }
+
+  async connect()  {
+    try {
+      await this.connection.start();
       console.log("Connected");
-      this.connection.on("ReceiveMessage", (message, arg) => {
-        console.log(`message ${message} arg ${arg}`);}
-      )}).
-      catch((err) => {
+      await this.connection.on("ReceiveMessage", (message, arg) => {
+        console.log(`message ${message} arg ${arg}`);});    
+    }
+    catch (err: any) {
       return console.error(err.toString());
-    });
+    }
   }
 
   sendMessage(message: string, arg: string) {
