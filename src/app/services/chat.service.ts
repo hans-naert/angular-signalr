@@ -17,8 +17,9 @@ export class ChatService {
     try {
       await this.connection.start();
       console.log("Connected");
-      await this.connection.on("ReceiveMessage", (message, arg) => {
-        console.log(`message ${message} arg ${arg}`);});    
+      this.connection.on("ReceiveMessage", (user, message) => {
+        console.log(`User: ${user}, Message: ${message}`);
+      });    
     }
     catch (err: any) {
       return console.error(err.toString());
