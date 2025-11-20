@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as signalR from '@microsoft/signalr';
 
@@ -6,10 +6,10 @@ import * as signalR from '@microsoft/signalr';
   providedIn: 'root'
 })
 export class ChatService {
-
+  private httpClient = inject(HttpClient);
   connection: signalR.HubConnection= new signalR.HubConnectionBuilder().withUrl("http://localhost:5299/chatHub").build();
 
-  constructor(private httpClient: HttpClient) {
+  constructor() {
     this.connect();
   }
 
